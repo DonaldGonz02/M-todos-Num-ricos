@@ -12,7 +12,7 @@ import java.io.*;
 public class MetodosNumericos {
 
      //Metodo Constructor
-  public static void main(String args[]){
+ /** public static void main(String args[]){
   MetodosNumericos Proyecto = new MetodosNumericos();
   Proyecto.menu();  //solo se manda a llamar a menu desde aqui, ya que menu llama a los demas metodos posteriromente
   }
@@ -133,6 +133,6 @@ public class MetodosNumericos {
       break;
       }
     }while(p==1);
-    }
+    }*/
     
 }
