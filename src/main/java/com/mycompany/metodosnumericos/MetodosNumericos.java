@@ -11,6 +11,7 @@ import java.io.*;
  */
 public class MetodosNumericos {
 
+    
      //Metodo Constructor
  /** public static void main(String args[]){
   MetodosNumericos Proyecto = new MetodosNumericos();
@@ -134,5 +135,6 @@ public class MetodosNumericos {
       }
     }while(p==1);
     }*/
+    
     
 }
