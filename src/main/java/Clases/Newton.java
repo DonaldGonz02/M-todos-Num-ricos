@@ -23,7 +23,8 @@ public class Newton {
         this.xi = xi;
         this.Tol = Tol;
     }
-
+    
+    //constructores xD
     public String getFx() {
         return fx;
     }
