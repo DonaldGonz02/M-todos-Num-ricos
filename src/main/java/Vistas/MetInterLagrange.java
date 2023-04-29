@@ -8,12 +8,12 @@ package Vistas;
  *
  * @author rexgr
  */
-public class MetBairstow extends javax.swing.JInternalFrame {
+public class MetInterLagrange extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form MetBairstow
+     * Creates new form MetInterLagrange
      */
-    public MetBairstow() {
+    public MetInterLagrange() {
         initComponents();
     }
 
@@ -28,7 +28,8 @@ public class MetBairstow extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Método de Bairstow");
+        setTitle("Interpolación Lagrange");
+        setName("Interpolacion Lagrange"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

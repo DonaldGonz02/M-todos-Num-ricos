@@ -2,7 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.metodosnumericos;
+package Main;
+
+import Vistas.MetPuntoFijo;
+import Vistas.MetRaizM;
+import Vistas.MetNewton;
+import Vistas.MetMuller;
+import Vistas.MetEcuaciones;
+import Vistas.MetReglaFalsa;
+import Vistas.MetSecante;
+import Vistas.MetBairstow;
+import Vistas.MetBiseccion;
+import Vistas.MetInterLagrange;
+import Vistas.MetInterNewton;
+import Vistas.MetEcua1;
+import Vistas.MetEcua2;
+import java.awt.Dimension;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -29,22 +45,25 @@ public class View extends javax.swing.JFrame {
 
         jDesktop = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        MetAbiertos = new javax.swing.JMenu();
         opNewton = new javax.swing.JMenuItem();
         opSecante = new javax.swing.JMenuItem();
         opRaices = new javax.swing.JMenuItem();
         opPunto = new javax.swing.JMenuItem();
-        opEcua = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        opInterNewton = new javax.swing.JMenuItem();
+        opInterLagrange = new javax.swing.JMenuItem();
+        MetCerrados = new javax.swing.JMenu();
         opBiseccion = new javax.swing.JMenuItem();
         opRegla = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        Raices = new javax.swing.JMenu();
         opMuller = new javax.swing.JMenuItem();
         opBairstow = new javax.swing.JMenuItem();
+        Ecuaciones = new javax.swing.JMenu();
+        op1Ing = new javax.swing.JMenuItem();
+        op2Ing = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         javax.swing.GroupLayout jDesktopLayout = new javax.swing.GroupLayout(jDesktop);
         jDesktop.setLayout(jDesktopLayout);
@@ -57,7 +76,7 @@ public class View extends javax.swing.JFrame {
             .addGap(0, 613, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Métodos Abiertos");
+        MetAbiertos.setText("Métodos Abiertos");
 
         opNewton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opNewton.setText("Newton");
@@ -66,7 +85,7 @@ public class View extends javax.swing.JFrame {
                 opNewtonActionPerformed(evt);
             }
         });
-        jMenu1.add(opNewton);
+        MetAbiertos.add(opNewton);
 
         opSecante.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opSecante.setText("Secante");
@@ -75,7 +94,7 @@ public class View extends javax.swing.JFrame {
                 opSecanteActionPerformed(evt);
             }
         });
-        jMenu1.add(opSecante);
+        MetAbiertos.add(opSecante);
 
         opRaices.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opRaices.setText("Raíces Múltiples");
@@ -84,7 +103,7 @@ public class View extends javax.swing.JFrame {
                 opRaicesActionPerformed(evt);
             }
         });
-        jMenu1.add(opRaices);
+        MetAbiertos.add(opRaices);
 
         opPunto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opPunto.setText("Punto Fijo");
@@ -93,20 +112,29 @@ public class View extends javax.swing.JFrame {
                 opPuntoActionPerformed(evt);
             }
         });
-        jMenu1.add(opPunto);
+        MetAbiertos.add(opPunto);
 
-        opEcua.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_DOWN_MASK));
-        opEcua.setText("Ecuación No Lineal");
-        opEcua.addActionListener(new java.awt.event.ActionListener() {
+        opInterNewton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        opInterNewton.setText("Interpolación Newton");
+        opInterNewton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opEcuaActionPerformed(evt);
+                opInterNewtonActionPerformed(evt);
             }
         });
-        jMenu1.add(opEcua);
+        MetAbiertos.add(opInterNewton);
 
-        jMenuBar1.add(jMenu1);
+        opInterLagrange.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
+        opInterLagrange.setText("Interpolación Lagrange");
+        opInterLagrange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opInterLagrangeActionPerformed(evt);
+            }
+        });
+        MetAbiertos.add(opInterLagrange);
 
-        jMenu2.setText("Métodos Cerrados");
+        jMenuBar1.add(MetAbiertos);
+
+        MetCerrados.setText("Métodos Cerrados");
 
         opBiseccion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opBiseccion.setText("Bisección");
@@ -115,7 +143,7 @@ public class View extends javax.swing.JFrame {
                 opBiseccionActionPerformed(evt);
             }
         });
-        jMenu2.add(opBiseccion);
+        MetCerrados.add(opBiseccion);
 
         opRegla.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opRegla.setText("Regla Falsa");
@@ -124,11 +152,11 @@ public class View extends javax.swing.JFrame {
                 opReglaActionPerformed(evt);
             }
         });
-        jMenu2.add(opRegla);
+        MetCerrados.add(opRegla);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(MetCerrados);
 
-        jMenu3.setText("Raíces");
+        Raices.setText("Raíces");
 
         opMuller.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opMuller.setText("Muller");
@@ -137,7 +165,7 @@ public class View extends javax.swing.JFrame {
                 opMullerActionPerformed(evt);
             }
         });
-        jMenu3.add(opMuller);
+        Raices.add(opMuller);
 
         opBairstow.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_DOWN_MASK));
         opBairstow.setText("Bairstow");
@@ -146,9 +174,31 @@ public class View extends javax.swing.JFrame {
                 opBairstowActionPerformed(evt);
             }
         });
-        jMenu3.add(opBairstow);
+        Raices.add(opBairstow);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(Raices);
+
+        Ecuaciones.setText("Ecuaciones");
+
+        op1Ing.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        op1Ing.setText("1 Incógnita");
+        op1Ing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                op1IngActionPerformed(evt);
+            }
+        });
+        Ecuaciones.add(op1Ing);
+
+        op2Ing.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        op2Ing.setText("Incógnitas");
+        op2Ing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                op2IngActionPerformed(evt);
+            }
+        });
+        Ecuaciones.add(op2Ing);
+
+        jMenuBar1.add(Ecuaciones);
 
         setJMenuBar(jMenuBar1);
 
@@ -168,71 +218,94 @@ public class View extends javax.swing.JFrame {
     private void opNewtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opNewtonActionPerformed
         // TODO add your handling code here:
         MetNewton viewWindow= new MetNewton();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
     }//GEN-LAST:event_opNewtonActionPerformed
 
     private void opSecanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opSecanteActionPerformed
         // TODO add your handling code here:
         MetSecante viewWindow = new MetSecante();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
     }//GEN-LAST:event_opSecanteActionPerformed
 
     private void opRaicesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opRaicesActionPerformed
         // TODO add your handling code here:
         MetRaizM viewWindow = new MetRaizM();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
     }//GEN-LAST:event_opRaicesActionPerformed
 
     private void opPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opPuntoActionPerformed
         // TODO add your handling code here:
         MetPuntoFijo viewWindow = new MetPuntoFijo();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
+        //CenterView(viewWindow);
     }//GEN-LAST:event_opPuntoActionPerformed
-
-    private void opEcuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opEcuaActionPerformed
-        // TODO add your handling code here:
-        MetEcuaciones viewWindow = new MetEcuaciones();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
-
-    }//GEN-LAST:event_opEcuaActionPerformed
 
     private void opBiseccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opBiseccionActionPerformed
         // TODO add your handling code here:
         MetBiseccion viewWindow = new MetBiseccion();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
 
     }//GEN-LAST:event_opBiseccionActionPerformed
 
     private void opReglaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opReglaActionPerformed
         // TODO add your handling code here:
         MetReglaFalsa viewWindow = new MetReglaFalsa();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
 
     }//GEN-LAST:event_opReglaActionPerformed
 
     private void opMullerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opMullerActionPerformed
         // TODO add your handling code here:
-        MetMuller viewWindow = new MetMuller();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        MetMuller viewMuller = new MetMuller();
+        //jDesktop.add(frame);
+        //viewWindow.show();
+        CenterView(viewMuller);
 
     }//GEN-LAST:event_opMullerActionPerformed
 
     private void opBairstowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opBairstowActionPerformed
         // TODO add your handling code here:
         MetBairstow viewWindow = new MetBairstow();
-        jDesktop.add(viewWindow);
-        viewWindow.show();
+        CenterView(viewWindow);
 
     }//GEN-LAST:event_opBairstowActionPerformed
 
+    private void opInterLagrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opInterLagrangeActionPerformed
+        // TODO add your handling code here:
+        MetInterLagrange viewWindow = new MetInterLagrange();
+        CenterView(viewWindow);
+        
+    }//GEN-LAST:event_opInterLagrangeActionPerformed
+
+    private void opInterNewtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opInterNewtonActionPerformed
+        // TODO add your handling code here:
+        MetInterNewton viewWindow = new MetInterNewton();
+        CenterView(viewWindow);
+    }//GEN-LAST:event_opInterNewtonActionPerformed
+
+    private void op1IngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_op1IngActionPerformed
+        // TODO add your handling code here:
+        MetEcua1 viewWindow = new MetEcua1();
+        CenterView(viewWindow);
+    }//GEN-LAST:event_op1IngActionPerformed
+
+    private void op2IngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_op2IngActionPerformed
+        // TODO add your handling code here:
+        MetEcua2 viewWindow = new MetEcua2();
+        CenterView(viewWindow);
+    }//GEN-LAST:event_op2IngActionPerformed
+    
+    //Formato para las ventanas  
+    public void CenterView(JInternalFrame frame){
+        jDesktop.add(frame);
+        Dimension dimension = jDesktop.getSize();
+        Dimension dimensionF = frame.getSize();
+        //frame.setLocation(null);
+        //tamaño preferido 1200*600
+        frame.setLocation((dimension.width - dimensionF.width)/2, (dimension.height - dimensionF.height)/2);
+        frame.show();
+     }
+    
     /**
      * @param args the command line arguments
      */
@@ -269,14 +342,18 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Ecuaciones;
+    private javax.swing.JMenu MetAbiertos;
+    private javax.swing.JMenu MetCerrados;
+    private javax.swing.JMenu Raices;
     private javax.swing.JDesktopPane jDesktop;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem op1Ing;
+    private javax.swing.JMenuItem op2Ing;
     private javax.swing.JMenuItem opBairstow;
     private javax.swing.JMenuItem opBiseccion;
-    private javax.swing.JMenuItem opEcua;
+    private javax.swing.JMenuItem opInterLagrange;
+    private javax.swing.JMenuItem opInterNewton;
     private javax.swing.JMenuItem opMuller;
     private javax.swing.JMenuItem opNewton;
     private javax.swing.JMenuItem opPunto;

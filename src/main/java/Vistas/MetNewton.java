@@ -2,21 +2,143 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
-package com.mycompany.metodosnumericos;
+package Vistas;
+
+import Clases.Newton;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.lsmp.djep.djep.DJep;
+import org.nfunk.jep.JEP;
+import org.nfunk.jep.Node;
+import org.nfunk.jep.ParseException;
 
 /**
  *
  * @author rexgr
  */
 public class MetNewton extends javax.swing.JInternalFrame {
-
+    //Instanciamos las clases
+    DefaultTableModel model= new DefaultTableModel();
+    Newton mNewton =new Newton();
+    DJep dJep = new DJep();
+    JEP jep=new JEP();
     /**
      * Creates new form MetNewton
      */
     public MetNewton() {
         initComponents();
     }
+    //Decalrando variables
+    private double r = 0.0;
+    int i = 1;
+    double xi;
+    double rXi;
+    double fXi;
+    double dfxi;
+    double eTol;
+    
+    
+    //Derivada
+    public void FunDer(){
+        Node nFuncion;
+        Node nDer;
+        Node nDif;
+        dJep = new DJep();
+        //bloque de manejo de Errores
+        try {//analisis de la funcion
+            dJep.addStandardFunctions();
+            dJep.addStandardConstants();
+            dJep.addComplex();//numeros Complexos
+            dJep.setAllowUndeclared(true);
+            dJep.setAllowAssignment(true);
+            dJep.setImplicitMul(true);
+            dJep.addStandardDiffRules();
 
+            //evaluando (X) en la funcion
+            nFuncion = dJep.parse(mNewton.getFx());
+            nDif = dJep.differentiate(nFuncion, "x");//indicandole que el valor de x debe ser sustituido
+            nDer = dJep.simplify(nDif);
+
+            mNewton.setDfx(dJep.toString(nDer));
+
+        } catch (ParseException e) {
+            System.out.println("Error: " + e.getErrorInfo());
+        }
+    }
+    
+    //Evaluando la Función ingresada
+    public double F(double x) {
+        jep = new JEP();
+        jep.addStandardFunctions();
+        jep.addStandardConstants();
+        jep.addVariable("x", x);
+        jep.parseExpression(mNewton.getFx());
+        r = jep.getValue();
+
+        return r;
+    }
+    
+    //Evaluando la derivada de la funcion
+     public double DerF(double x) {
+        jep = new JEP();
+        jep.addStandardFunctions();
+        jep.addStandardConstants();
+        jep.addVariable("x", x);
+        jep.parseExpression(mNewton.getDfx());
+        r = jep.getValue();
+
+        return r;
+    }
+     
+    //Método de Newton
+     public void evMetNewton() {
+        do {
+
+            xi = mNewton.getXi();
+
+            fXi = F(xi);
+            dfxi = DerF(xi);
+            //recurrencia 
+            rXi =xi - (fXi / dfxi);
+
+            if (i == 1) {
+
+            } else {
+                eTol = (Math.abs(xi - rXi));
+            }
+            //view Tableee
+            model = (DefaultTableModel) jtNewton.getModel();
+            Object[] ob = new Object[6];
+            ob[0] = i;
+            ob[1] = String.format("%.4f", xi);
+            ob[2] = String.format("%.4f", fXi);
+            ob[3] = String.format("%.4f", dfxi);
+            ob[4] = String.format("%.4f", rXi);
+            ob[5] = String.format("%.4f", eTol);
+            model.addRow(ob);
+            jtNewton.setModel(model);
+
+            mNewton.setXi(rXi);
+
+            i++;//incrementando la iteracion y las filas
+
+        } while (Math.abs(xi - rXi) >= mNewton.getTol()); //Condicional basado en la tolerancia ingresada
+    }
+    
+     public void Respuesta(){
+        txtResultado.setText(String.format("%.4f", xi));
+    }
+
+    public void takeData() {
+        String funcion = txtFuncion.getText();//lee la funcion ingresada
+        double xi = Double.parseDouble(txtXi.getText());//lee el valor para xi indicado
+        double Tol = Double.parseDouble(txtTol.getText());//registra la tolerancia solicitada
+        
+        mNewton.setFx(funcion);
+        mNewton.setXi(xi);
+        mNewton.setTol(Tol);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,16 +150,20 @@ public class MetNewton extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtFuncion = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtXi = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtNewton = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        txtTol = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtResultado = new javax.swing.JTextField();
+        jbEvaluar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
         setTitle("Método de Newton");
         setAutoscrolls(true);
         setVerifyInputWhenFocusTarget(false);
@@ -49,34 +175,34 @@ public class MetNewton extends javax.swing.JInternalFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextArea1.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        jScrollPane1.setViewportView(jTextArea1);
+        txtFuncion.setColumns(20);
+        txtFuncion.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtFuncion.setLineWrap(true);
+        txtFuncion.setRows(5);
+        txtFuncion.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtFuncion.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jScrollPane1.setViewportView(txtFuncion);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel2.setText("Asignar [xi]");
+        jLabel2.setText("Resultado");
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextArea2.setMargin(new java.awt.Insets(2, 2, 2, 2));
-        jScrollPane2.setViewportView(jTextArea2);
+        txtXi.setColumns(20);
+        txtXi.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        txtXi.setLineWrap(true);
+        txtXi.setRows(5);
+        txtXi.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtXi.setMargin(new java.awt.Insets(2, 2, 2, 2));
+        jScrollPane2.setViewportView(txtXi);
 
         jScrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtNewton.setAutoCreateRowSorter(true);
+        jtNewton.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -92,9 +218,31 @@ public class MetNewton extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setShowHorizontalLines(true);
-        jTable1.setShowVerticalLines(true);
-        jScrollPane3.setViewportView(jTable1);
+        jtNewton.setShowHorizontalLines(true);
+        jtNewton.setShowVerticalLines(true);
+        jScrollPane3.setViewportView(jtNewton);
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setText("Asignar [xi]");
+
+        txtTol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTolActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel4.setText("Toleracia");
+
+        txtResultado.setEditable(false);
+
+        jbEvaluar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jbEvaluar.setText("Evaluar");
+        jbEvaluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEvaluarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -103,43 +251,94 @@ public class MetNewton extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 856, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(137, 137, 137)
+                                .addComponent(txtTol))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(91, 91, 91)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbEvaluar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 46, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(251, 251, 251)
+                    .addComponent(jLabel4)
+                    .addContainerGap(626, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(99, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbEvaluar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(txtTol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(59, 59, 59)
+                    .addComponent(jLabel4)
+                    .addContainerGap(458, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtTolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTolActionPerformed
+
+    private void jbEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEvaluarActionPerformed
+        // TODO add your handling code here:
+        takeData();
+        FunDer();
+        evMetNewton();
+        Respuesta();
+    }//GEN-LAST:event_jbEvaluarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JButton jbEvaluar;
+    private javax.swing.JTable jtNewton;
+    private javax.swing.JTextArea txtFuncion;
+    private javax.swing.JTextField txtResultado;
+    private javax.swing.JTextField txtTol;
+    private javax.swing.JTextArea txtXi;
     // End of variables declaration//GEN-END:variables
 }

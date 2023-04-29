@@ -8,12 +8,12 @@ package Vistas;
  *
  * @author rexgr
  */
-public class MetBairstow extends javax.swing.JInternalFrame {
+public class MetEcua2 extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form MetBairstow
+     * Creates new form MetEcua2
      */
-    public MetBairstow() {
+    public MetEcua2() {
         initComponents();
     }
 
@@ -28,7 +28,7 @@ public class MetBairstow extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setTitle("Método de Bairstow");
+        setTitle("Ecuaciones xy");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
