@@ -50,8 +50,9 @@ public class View extends javax.swing.JFrame {
         opSecante = new javax.swing.JMenuItem();
         opRaices = new javax.swing.JMenuItem();
         opPunto = new javax.swing.JMenuItem();
-        opInterNewton = new javax.swing.JMenuItem();
-        opInterLagrange = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         MetCerrados = new javax.swing.JMenu();
         opBiseccion = new javax.swing.JMenuItem();
         opRegla = new javax.swing.JMenuItem();
@@ -114,23 +115,15 @@ public class View extends javax.swing.JFrame {
         });
         MetAbiertos.add(opPunto);
 
-        opInterNewton.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        opInterNewton.setText("Interpolación Newton");
-        opInterNewton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opInterNewtonActionPerformed(evt);
-            }
-        });
-        MetAbiertos.add(opInterNewton);
+        jMenu1.setText("Interpolación");
 
-        opInterLagrange.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        opInterLagrange.setText("Interpolación Lagrange");
-        opInterLagrange.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                opInterLagrangeActionPerformed(evt);
-            }
-        });
-        MetAbiertos.add(opInterLagrange);
+        jMenuItem1.setText("Newton");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Lagrange");
+        jMenu1.add(jMenuItem2);
+
+        MetAbiertos.add(jMenu1);
 
         jMenuBar1.add(MetAbiertos);
 
@@ -233,13 +226,6 @@ public class View extends javax.swing.JFrame {
         CenterView(viewWindow);
     }//GEN-LAST:event_opRaicesActionPerformed
 
-    private void opPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opPuntoActionPerformed
-        // TODO add your handling code here:
-        MetPuntoFijo viewWindow = new MetPuntoFijo();
-        CenterView(viewWindow);
-        //CenterView(viewWindow);
-    }//GEN-LAST:event_opPuntoActionPerformed
-
     private void opBiseccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opBiseccionActionPerformed
         // TODO add your handling code here:
         MetBiseccion viewWindow = new MetBiseccion();
@@ -270,19 +256,6 @@ public class View extends javax.swing.JFrame {
 
     }//GEN-LAST:event_opBairstowActionPerformed
 
-    private void opInterLagrangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opInterLagrangeActionPerformed
-        // TODO add your handling code here:
-        MetInterLagrange viewWindow = new MetInterLagrange();
-        CenterView(viewWindow);
-        
-    }//GEN-LAST:event_opInterLagrangeActionPerformed
-
-    private void opInterNewtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opInterNewtonActionPerformed
-        // TODO add your handling code here:
-        MetInterNewton viewWindow = new MetInterNewton();
-        CenterView(viewWindow);
-    }//GEN-LAST:event_opInterNewtonActionPerformed
-
     private void op1IngActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_op1IngActionPerformed
         // TODO add your handling code here:
         MetEcua1 viewWindow = new MetEcua1();
@@ -294,6 +267,13 @@ public class View extends javax.swing.JFrame {
         MetEcua2 viewWindow = new MetEcua2();
         CenterView(viewWindow);
     }//GEN-LAST:event_op2IngActionPerformed
+
+    private void opPuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opPuntoActionPerformed
+        // TODO add your handling code here:
+        MetPuntoFijo viewWindow = new MetPuntoFijo();
+        CenterView(viewWindow);
+        //CenterView(viewWindow);
+    }//GEN-LAST:event_opPuntoActionPerformed
     
     //Formato para las ventanas  
     public void CenterView(JInternalFrame frame){
@@ -347,13 +327,14 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JMenu MetCerrados;
     private javax.swing.JMenu Raices;
     private javax.swing.JDesktopPane jDesktop;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem op1Ing;
     private javax.swing.JMenuItem op2Ing;
     private javax.swing.JMenuItem opBairstow;
     private javax.swing.JMenuItem opBiseccion;
-    private javax.swing.JMenuItem opInterLagrange;
-    private javax.swing.JMenuItem opInterNewton;
     private javax.swing.JMenuItem opMuller;
     private javax.swing.JMenuItem opNewton;
     private javax.swing.JMenuItem opPunto;
