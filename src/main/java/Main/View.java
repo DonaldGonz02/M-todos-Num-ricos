@@ -119,6 +119,11 @@ public class View extends javax.swing.JFrame {
         jMenu1.setText("Interpolación");
 
         jMenuItem1.setText("Newton");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Lagrange");
@@ -275,6 +280,12 @@ public class View extends javax.swing.JFrame {
         CenterView(viewWindow);
         //CenterView(viewWindow);
     }//GEN-LAST:event_opPuntoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        MetInterNewton viewWindow = new MetInterNewton();
+        CenterView(viewWindow);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     //Formato para las ventanas  
     public void CenterView(JInternalFrame frame){
