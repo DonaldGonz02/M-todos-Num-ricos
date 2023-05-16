@@ -127,6 +127,11 @@ public class View extends javax.swing.JFrame {
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Lagrange");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         MetAbiertos.add(jMenu1);
@@ -286,6 +291,12 @@ public class View extends javax.swing.JFrame {
         MetInterNewton viewWindow = new MetInterNewton();
         CenterView(viewWindow);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        MetInterLagrange viewWindow = new MetInterLagrange();
+        CenterView(viewWindow);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     //Formato para las ventanas  
     public void CenterView(JInternalFrame frame){
