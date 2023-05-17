@@ -9,7 +9,7 @@ import java.io.*;
  *
  * @author rexgr
  */
-public class MetodosNumericos {
+public class Plantilla {
 
     
      //Metodo Constructor
@@ -34,7 +34,8 @@ public class MetodosNumericos {
     double c;
     do{
     c=(a+b)/2.0;
-    if(((c*c-5)*(a*a-5))<0){
+    
+    * if(((c*c-5)*(a*a-5))<0){
       b=c;
     }
     else{
@@ -135,6 +136,4 @@ public class MetodosNumericos {
       }
     }while(p==1);
     }*/
-    
-    
 }
