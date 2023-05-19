@@ -4,6 +4,10 @@
  */
 package Vistas;
 
+import Clases.Biseccion;
+import javax.swing.table.DefaultTableModel;
+import org.nfunk.jep.JEP;
+
 /**
  *
  * @author rexgr
@@ -11,12 +15,99 @@ package Vistas;
 public class MetReglaFalsa extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form MetReglaFalsa
+     * Creates new form MetReglaFalsa, instancias
      */
+    
+    Biseccion mRules = new Biseccion();
+    DefaultTableModel modelo = new DefaultTableModel();
+    //Parseador para la manipulacion de valores en la funcion
+    JEP jep = new JEP();    
+    
     public MetReglaFalsa() {
         initComponents();
     }
-
+    
+    //variables
+    private double r = 0.0;
+    int i = 1;
+    double a;
+    double b;
+    double fA;
+    double fB;
+    double Xr;
+    double fXr;
+    double Tol;
+    
+    //método para evaluar la funcion
+    public double f(double x){
+        jep = new JEP();
+        jep.addStandardFunctions();
+        jep.addStandardConstants();
+        jep.addVariable("x", x);
+        jep.parseExpression(mRules.getFuncion());
+        r = jep.getValue();
+        
+        return r;
+    }
+    
+    //Método
+    public void metodo(){
+        do {            
+            a = mRules.getA();
+            b = mRules.getB();
+            fA = f(a);
+            fB = f(b);
+            
+            Xr = ((a*fB)-(b*fA))/((fB)-(fA));
+            
+            fXr = f(Xr);
+            
+            if (i == 1) {
+                
+            } else {
+                Tol = Math.abs(a - Xr);
+            }
+            
+            modelo = (DefaultTableModel) jTable.getModel();    
+            Object[] ob = new Object[8];
+            ob[0] = i;
+            ob[1] = String.format("%.4f", a);
+            ob[2] = String.format("%.4f", b);
+            ob[3] = String.format("%.4f", fA);
+            ob[4] = String.format("%.4f", fB);
+            ob[5] = String.format("%.4f", Xr);
+            ob[6] = String.format("%.4f", fXr);
+            ob[7] = String.format("%.4f", Tol);
+            modelo.addRow(ob);
+            jTable.setModel(modelo);
+            
+            if (fXr >= 0) {
+                mRules.setB(Xr);
+            } else {
+                mRules.setA(Xr);
+            }
+            i++;
+                    
+        } while (Math.abs(a-Xr) >= mRules.getTol());
+    }
+    
+    //captura de datos
+    public void takeData(){
+        String funcion = txtFuncion.getText();
+        double a = Double.parseDouble(txtA.getText());
+        double b = Double.parseDouble(txtB.getText());
+        double T = Double.parseDouble(txtTol.getText());
+        
+        mRules.setFuncion(funcion);
+        mRules.setA(a);
+        mRules.setB(b);
+        mRules.setTol(T);
+    }
+    
+    public void Respuesta(){
+        txtRespuesta.setText(String.format("%.4f", Xr));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,25 +117,221 @@ public class MetReglaFalsa extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtB = new javax.swing.JTextField();
+        txtTol = new javax.swing.JTextField();
+        txtRespuesta = new javax.swing.JTextField();
+        txtFuncion = new javax.swing.JTextField();
+        txtA = new javax.swing.JTextField();
+        jbEvaluar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable = new javax.swing.JTable();
+
         setClosable(true);
         setIconifiable(true);
         setTitle("Regla Falsa");
+
+        jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel1.setText("Ingresar Función a evaluar");
+
+        jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel2.setText("Valor de A:");
+
+        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel4.setText("Valor de B:");
+
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel5.setText("Tolerancia");
+
+        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 36)); // NOI18N
+        jLabel6.setText("Resultado");
+
+        txtB.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBActionPerformed(evt);
+            }
+        });
+
+        txtTol.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtTol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTolActionPerformed(evt);
+            }
+        });
+
+        txtRespuesta.setEditable(false);
+        txtRespuesta.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtRespuesta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRespuestaActionPerformed(evt);
+            }
+        });
+
+        txtFuncion.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtFuncion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFuncionActionPerformed(evt);
+            }
+        });
+
+        txtA.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        txtA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAActionPerformed(evt);
+            }
+        });
+
+        jbEvaluar.setFont(new java.awt.Font("Arial Narrow", 0, 36)); // NOI18N
+        jbEvaluar.setText("Evaluar");
+        jbEvaluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEvaluarActionPerformed(evt);
+            }
+        });
+
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "i", "a", "b", "f(a)", "f(b)", "xr", "f(xr)", "Tolerancia"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable);
+        if (jTable.getColumnModel().getColumnCount() > 0) {
+            jTable.getColumnModel().getColumn(0).setResizable(false);
+            jTable.getColumnModel().getColumn(1).setResizable(false);
+            jTable.getColumnModel().getColumn(2).setResizable(false);
+            jTable.getColumnModel().getColumn(3).setResizable(false);
+            jTable.getColumnModel().getColumn(4).setResizable(false);
+            jTable.getColumnModel().getColumn(5).setResizable(false);
+            jTable.getColumnModel().getColumn(6).setResizable(false);
+            jTable.getColumnModel().getColumn(7).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 982, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFuncion, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtA, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(txtB))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtTol, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(txtRespuesta))
+                        .addGap(52, 52, 52)
+                        .addComponent(jbEvaluar)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 546, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtFuncion))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtTol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(txtRespuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jbEvaluar)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBActionPerformed
+
+    private void txtTolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTolActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTolActionPerformed
+
+    private void txtRespuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRespuestaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRespuestaActionPerformed
+
+    private void txtFuncionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFuncionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFuncionActionPerformed
+
+    private void txtAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAActionPerformed
+
+    private void jbEvaluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEvaluarActionPerformed
+        // TODO add your handling code here:
+        takeData();
+        metodo();
+        Respuesta();        
+    }//GEN-LAST:event_jbEvaluarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable;
+    private javax.swing.JButton jbEvaluar;
+    private javax.swing.JTextField txtA;
+    private javax.swing.JTextField txtB;
+    private javax.swing.JTextField txtFuncion;
+    private javax.swing.JTextField txtRespuesta;
+    private javax.swing.JTextField txtTol;
     // End of variables declaration//GEN-END:variables
 }
